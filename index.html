@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Primary invitation font: Edwardian Script ITC -->
+<link rel="preload" as="image" href="assets/doors-desktop.jpg" media="(min-aspect-ratio: 1/1)">
+<link rel="preload" as="image" href="assets/doors-mobile.jpg" media="(max-aspect-ratio: 1/1)">
+<title>Karthick &amp; Bharathirithika — Wedding Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+Tamil:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #FBF3E4;
+    --cream-deep: #F2E6CC;
+    --maroon: #6E1423;
+    --maroon-deep: #4A0D18;
+    --gold: #B8863B;
+    --gold-bright: #D4A94F;
+    --ink: #3B2417;
+    --line: rgba(110,20,35,0.22);
+  }
+  *{ box-sizing: border-box; }
+  html, body{ margin:0; padding:0; background: #eef3e6; color: var(--ink); font-family: 'Edwardian Script ITC', 'Edwardian Script', 'URW Chancery L', cursive; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  body.locked{ overflow: hidden; height: 100vh; }
+
+  /* ================= DOORS ================= */
+  #doors{
+    position: fixed; inset: 0; z-index: 500;
+    display: flex;
+    perspective: 1600px;
+  }
+  .door{
+    flex: 1 1 50%; width: 50%; height: 100%; position: relative; overflow: hidden;
+    background-color: #eef3e6;
+    box-shadow: inset 0 0 45px rgba(0,0,0,.18);
+    transition: transform 1.5s cubic-bezier(.76,.05,.24,.95), opacity .35s ease;
+    transform-style: preserve-3d; backface-visibility:hidden; will-change:transform;
+  }
+  /* Each door shows one half of ONE full-viewport image (cover = no stretching) */
+  .door::before{
+    content:""; position:absolute; top:0; bottom:0; width:100vw;
+    background: #eef3e6 url("assets/doors-desktop.jpg") center top / cover no-repeat;
+  }
+  .door.left::before{ left:0; }
+  .door.right::before{ right:0; }
+  @media (max-aspect-ratio: 1/1){
+    .door::before{ background-image: url("assets/doors-mobile.jpg"); background-position:center bottom; }
+  }
+  .door.left{ transform-origin:left center; border-right:1px solid rgba(50,25,10,.35); }
+  .door.right{ transform-origin:right center; border-left:1px solid rgba(50,25,10,.35); }
+  .door-ornament, .door-emblem{ display:none !important; }
+  #doors.opened .door.left{ transform:translateX(-103%) rotateY(-32deg); }
+  #doors.opened .door.right{ transform:translateX(103%) rotateY(32deg); }
+  #doors.hidden{ visibility: hidden; pointer-events: none; }
+
+  /* curtain valance across the top of the doors */
+  .curtain{
+    display:none !important;
+    position: absolute; top: 0; left: 0; right: 0; height: 90px;
+    background: linear-gradient(180deg, #4A0D18, rgba(74,13,24,0));
+    z-index: 6;
+    transform-origin: top center;
+    transition: transform 1.1s ease-in, opacity 1.1s ease-in;
+  }
+  .curtain::after{
+    content: "";
+    position: absolute; bottom: -10px; left: 0; right: 0; height: 14px;
+    background-image: radial-gradient(circle, var(--gold) 3px, transparent 3.5px);
+    background-size: 26px 14px;
+    background-repeat: repeat-x;
+    opacity: 0.85;
+  }
+  #doors.opened .curtain{ transform: scaleY(0); opacity: 0; }
+
+  #sparkle-canvas{
+    position: fixed; inset: 0; z-index: 600; pointer-events: none;
+  }
+
+  #open-btn-wrap{
+    position: absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index: 10;
+    flex-direction: column; gap: 18px; pointer-events: none;
+  }
+  #open-btn-wrap *{ pointer-events: auto; }
+  .invite-tag{
+    font-family: 'Edwardian Script ITC', 'Edwardian Script', 'Noto Sans Tamil', cursive; color: var(--gold-bright); font-size: 16px; letter-spacing: 0.04em;
+  }
+  .ganesha-emblem{
+    width: 70px; height: auto; margin: 0 auto 10px; display: block;
+  }
+  .ganesha-emblem.on-dark{
+    filter: drop-shadow(0 0 10px rgba(212,169,79,0.55));
+  }
+  #open-btn{
+    font-family: 'Edwardian Script ITC', 'Edwardian Script', 'URW Chancery L', cursive; font-size: 20px; letter-spacing: 0.08em;
+    color: var(--cream); background: transparent; border: 1px solid var(--gold-bright);
+    padding: 14px 38px; cursor: pointer; position: relative;
+    animation: pulseGlow 2.6s ease-in-out infinite;
+  }
+  #open-btn:hover{ background: rgba(212,169,79,0.12); }
+  .front-open-caption{position:absolute;left:50%;bottom:9.5%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;width:min(88vw,430px);text-align:center;}
+  .front-open-line{color:#fff7e7;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(18px,3.8vw,28px);font-weight:600;letter-spacing:.08em;text-shadow:0 2px 8px rgba(0,0,0,.7);}
+  #open-btn{border-color:#e0bd72;background:rgba(54,24,8,.46);box-shadow:0 5px 24px rgba(0,0,0,.34),inset 0 0 14px rgba(255,220,145,.08);backdrop-filter:blur(2px);}
+  @media(max-width:600px){.front-open-caption{bottom:8%;}.front-open-line{font-size:19px;}#open-btn{font-size:17px;padding:11px 28px;}}
+  @keyframes pulseGlow{
+    0%,100%{ box-shadow: 0 0 0 rgba(212,169,79,0); }
+    50%{ box-shadow: 0 0 22px rgba(212,169,79,0.45); }
+  }
+  .door-names{ font-family:'Edwardian Script ITC', 'Edwardian Script', 'URW Chancery L', cursive; color: var(--cream); font-size: 30px; text-align:center; }
+
+  /* ================= PAGE ================= */
+  body{ background: var(--cream); background-image: radial-gradient(circle at 1px 1px, rgba(184,134,59,0.16) 1px, transparent 1.4px); background-size: 22px 22px; }
+
+  .frame{ max-width: 640px; margin: 18px auto; border: 1px solid var(--gold); outline: 1px solid var(--gold); outline-offset: 6px; background: var(--cream); position: relative; overflow: hidden; }
+  .corner{ position: absolute; width: 78px; height: 78px; opacity: 0.85; }
+  .corner svg{ width:100%; height:100%; display:block; }
+  .corner.tl{ top: -2px; left: -2px; } .corner.tr{ top: -2px; right: -2px; transform: scaleX(-1); }
+  .corner.bl{ bottom: -2px; left: -2px; transform: scaleY(-1); } .corner.br{ bottom: -2px; right: -2px; transform: scale(-1,-1); }
+
+  section{ padding: 46px 40px; position: relative; }
+
+  .divider{ display:flex; align-items:center; justify-content:center; gap: 14px; margin: 0 auto; width: 100%; }
+  .divider .line{ height:1px; width: 60px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .divider svg{ width: 26px; height: 26px; flex-shrink: 0; }
+
+  .hero{ text-align: center; padding-top: 54px; padding-bottom: 30px; position: relative; overflow: hidden; }
+  .petal{
+    position: absolute; top: -20px; font-size: 16px; color: var(--gold);
+    animation: fall linear infinite;
+    opacity: 0.7;
+  }
+  @keyframes fall{
+    0%{ transform: translateY(0) rotate(0deg); opacity: 0; }
+    10%{ opacity: 0.7; }
+    90%{ opacity: 0.6; }
+    100%{ transform: translateY(340px) rotate(340deg); opacity: 0; }
+  }
+  .blessing-tamil{ font-family: 'Edwardian Script ITC', 'Edwardian Script', 'Noto Sans Tamil', cursive; font-size: 17px; color: var(--maroon); margin: 0 0 6px; }
+  .blessing-sub{ font-size: 13px; color: var(--gold); letter-spacing: 0.14em; margin: 0 0 30px; }
+  .invite-lead{ font-size: 15px; color: var(--maroon-deep); letter-spacing: 0.04em; margin: 0 0 18px; }
+  .names{ font-family: 'Edwardian Script ITC', 'Edwardian Script', 'URW Chancery L', cursive; font-size: clamp(34px, 8vw, 50px); line-height: 1.18; color: var(--maroon); margin: 0; font-weight: 500; }
+  .names .and{ display:block; font-style: italic; font-size: 0.5em; color: var(--gold); margin: 6px 0; }
+  .invite-tail{ margin-top: 26px; font-size: 16px; font-style: italic; color: var(--ink); }
+
+  .families{ background: var(--cream-deep); text-align: center; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .family-heading{ font-size: 14px; letter-spacing: 0.08em; color: var(--maroon-deep); margin: 0 0 32px; }
+  .family-pair{ display: flex; gap: 28px; justify-content: center; }
+  .family{ flex: 1; max-width: 220px; }
+  .family .role{ font-size: 12px; letter-spacing: 0.12em; color: var(--gold); margin: 0 0 8px; }
+  .family .who{ font-family: 'Edwardian Script ITC', 'Edwardian Script', 'URW Chancery L', cursive; font-size: 24px; color: var(--maroon); margin: 0 0 10px; font-weight: 600; }
+  .family .parents{ font-size: 14.5px; line-height: 1.5; color: var(--ink); }
+  .family-divider{ width: 1px; background: var(--gold); opacity: 0.5; }
+
+  .events{ text-align: center; }
+  .section-title{ font-family: 'Edwardian Script ITC', 'Edwardian Script', 'URW Chancery L', cursive; font-size: 28px; color: var(--maroon); margin: 26px 0 34px; font-weight: 600; }
+  .event-card{ border: 1px solid var(--line); background: var(--cream); padding: 26px 24px; margin-bottom: 20px; position: relative; }
+  .event-card::before, .event-card::after{ content: ""; position: absolute; width: 12px; height: 12px; border: 1px solid var(--gold); }
+  .event-card::before{ top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .event-card::after{ bottom: -1px; right: -1px; border-left: none; border-top: none; }
+  .event-name{ font-family: 'Edwardian Script ITC', 'Edwardian Script', 'URW Chancery L', cursive; font-size: 22px; color: var(--maroon); margin: 0 0 6px; font-weight: 600; }
+  .event-date{ font-size: 16px; color: var(--ink); margin: 0 0 2px; }
+  .event-time{ font-size: 14px; color: var(--gold); letter-spacing: 0.03em; }
+
+  .countdown-label{ font-size: 13px; letter-spacing: 0.08em; color: var(--maroon-deep); margin: 30px 0 14px; }
+  .countdown{ display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+  .countdown .unit{ min-width: 62px; }
+  .flip-clock{
+    perspective: 240px;
+    width: 62px; height: 52px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .flip-clock .num{
+    position: absolute; inset: 0;
+    font-family: 'Edwardian Script ITC', 'Edwardian Script', 'URW Chancery L', cursive; font-size: 32px; color: var(--maroon); font-weight: 600;
+    border: 1px solid var(--gold); background: var(--cream-deep);
+    display: flex; align-items: center; justify-content: center;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+  }
+  .flip-clock .num::after{
+    content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px;
+    background: rgba(110,20,35,0.25);
+  }
+  .flip-clock.flip .num{
+    animation: flipDown 550ms cubic-bezier(.4,.2,.2,1);
+  }
+  @keyframes flipDown{
+    0%{ transform: rotateX(0deg); }
+    45%{ transform: rotateX(-95deg); }
+    55%{ transform: rotateX(-95deg); }
+    100%{ transform: rotateX(0deg); }
+  }
+  .countdown .lbl{ display:block; font-size: 11px; color: var(--gold); letter-spacing: 0.08em; margin-top: 6px; }
+
+  /* ---- ROYAL PRESTIGE STYLE SCRATCH REVEAL ---- */
+  .scratch-section{ text-align:center; background: var(--cream-deep); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  /* Royal Prestige heart-shaped scratch card */
+  .scratch-box{ position:relative; width:300px; height:300px; margin:8px auto 0; border:0; border-radius:0; overflow:visible; background:transparent; box-shadow:none; filter:drop-shadow(0 12px 22px rgba(80,20,25,.18)); }
+  .scratch-box::before{ content:""; position:absolute; inset:0; border:0; border-radius:0; pointer-events:none; z-index:3; }
+  .scratch-reveal{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:radial-gradient(circle at 50% 42%, #fffdf7 0%, var(--cream) 58%, #f0dfc0 100%); }
+  .scratch-reveal .d{ font-family:'Edwardian Script ITC','Edwardian Script','URW Chancery L',cursive; font-size:42px; color:var(--maroon); font-weight:600; transform:translateY(5px) scale(.92); opacity:.72; transition:transform 900ms cubic-bezier(.2,.8,.2,1), opacity 700ms ease, text-shadow 700ms ease; }
+  .scratch-reveal .m{ font-size:12px; color:var(--gold); letter-spacing:.16em; margin-top:5px; opacity:.65; transition:opacity 700ms ease; }
+  .scratch-box.revealed .d{ transform:translateY(0) scale(1); opacity:1; text-shadow:0 0 18px rgba(184,134,59,.35); }
+  .scratch-box.revealed .m{ opacity:1; }
+  #scratchCanvas{ position:absolute; inset:0; width:100%; height:100%; cursor:grab; touch-action:none; z-index:2; transition:opacity 650ms ease, transform 650ms ease; }
+  #scratchCanvas.scratching{ cursor:grabbing; }
+  #scratchCanvas.fade-out{ opacity:0; transform:scale(1.035); pointer-events:none; }
+  .scratch-hint{ font-size:13px; color:var(--maroon-deep); margin-top:14px; font-style:italic; transition:opacity .5s ease; }
+  .scratch-hint.done{ opacity:.55; }
+  .scratch-burst{ position:absolute; inset:0; pointer-events:none; z-index:4; overflow:visible; display:none; }
+  .scratch-spark{ position:absolute; left:50%; top:50%; width:5px; height:12px; border-radius:2px; background:var(--gold); transform:translate(-50%,-50%) rotate(var(--r)); animation:scratchBurst 900ms cubic-bezier(.12,.7,.25,1) forwards; opacity:0; }
+  .scratch-spark:nth-child(3n){ background:#b21f3a; }
+  .scratch-spark:nth-child(4n){ background:#e4a23a; }
+  .scratch-spark:nth-child(5n){ background:#6b8f71; }
+  @keyframes scratchBurst{ 0%{ opacity:1; transform:translate(-50%,-50%) rotate(var(--r)) scale(.4); } 100%{ opacity:0; transform:translate(calc(-50% + var(--x)), calc(-50% + var(--y))) rotate(calc(var(--r) + 260deg)) scale(1); } }
+
+  .venue{ background: var(--cream-deep); text-align: center; border-top: 1px solid var(--line); }
+  .venue-name{ font-family: 'Edwardian Script ITC', 'Edwardian Script', 'URW Chancery L', cursive; font-size: 24px; color: var(--maroon); margin: 0 0 6px; font-weight: 600; }
+  .venue-address{ font-size: 15px; color: var(--ink); margin: 0 0 22px; }
+  .map-wrap{ border: 1px solid var(--gold); height: 220px; overflow: hidden; margin-bottom: 20px; }
+  .map-wrap iframe{ width: 100%; height: 100%; border: 0; filter: sepia(18%) saturate(85%); }
+  .directions-btn{ display: inline-block; padding: 11px 30px; border: 1px solid var(--maroon); color: var(--maroon); text-decoration: none; font-size: 14px; letter-spacing: 0.06em; transition: background 200ms ease, color 200ms ease; }
+  .directions-btn:hover{ background: var(--maroon); color: var(--cream); }
+
+  .footer{ text-align: center; padding: 44px 40px 50px; }
+  .footer .close-names{ font-family: 'Edwardian Script ITC', 'Edwardian Script', 'URW Chancery L', cursive; font-size: 26px; color: var(--maroon); font-style: italic; margin: 18px 0 0; }
+  .footer .note{ font-size: 14px; color: var(--ink); line-height: 1.7; max-width: 380px; margin: 0 auto; }
+
+  /* ---- MUSIC TOGGLE ---- */
+  #music-toggle{
+    position: fixed; bottom: 20px; right: 20px; z-index: 400;
+    width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--gold);
+    background: var(--cream); color: var(--maroon); cursor: pointer;
+    display:flex; align-items:center; justify-content:center; font-size: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  #music-toggle.playing{ animation: spin 4s linear infinite; }
+  @keyframes spin{ from{ transform: rotate(0deg);} to{ transform: rotate(360deg);} }
+
+  @media (max-width: 480px){
+    section{ padding: 34px 22px; }
+    .family-pair{ gap: 16px; }
+    .countdown .unit{ min-width: 54px; }
+    .scratch-box{ width: 220px; }
+  }
+
+  /* ===== ROYAL TYPOGRAPHY ===== */
+  html, body, button, a, p, div, section, span { font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif !important; }
+  .section-title, .event-name, .role, .family-heading, .invite-lead, .blessing-sub, .invite-tail,
+  .event-date, .event-time, .venue-address, .directions-btn, .scratch-hint, .scratch-reveal .m,
+  .countdown .lbl, .note, .invite-tag, #open-btn {
+    font-family: 'Cinzel', 'Cormorant Garamond', Georgia, serif !important;
+  }
+  .section-title, .event-name, .role, .family-heading { font-weight: 600 !important; }
+  .names, .door-names, .close-names, .scratch-reveal .d, .who, .venue-name {
+    font-family: 'Monotype Corsiva', 'Edwardian Script ITC', 'URW Chancery L', cursive !important;
+    font-weight: 400 !important;
+  }
+  .names { font-size: clamp(46px, 8vw, 68px) !important; line-height: 1.05 !important; }
+  .and { font-family: 'Cormorant Garamond', serif !important; font-weight: 500 !important; }
+  .event-date, .event-time, .venue-address, .parents, .note { font-weight: 500 !important; }
+
+  /* ===== HEART SCRATCH CARD ===== */
+  .scratch-section { padding-top: 52px !important; padding-bottom: 52px !important; }
+  .scratch-box {
+    width: 300px !important; height: 270px !important;
+    border: 0 !important; border-radius: 0 !important; overflow: visible !important;
+    background: transparent !important; box-shadow: none !important;
+    position: relative !important;
+    filter: drop-shadow(0 12px 22px rgba(74,13,24,.18));
+  }
+  .scratch-box::before { display:none !important; }
+  .scratch-box::after {
+    content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background: linear-gradient(145deg,#fff8e9,#f1dfbc 48%,#fff9eb);
+    clip-path:path("M150 288 C132 274 25 211 25 106 C25 49 94 28 150 82 C206 28 275 49 275 106 C275 211 168 274 150 288 Z");
+    box-shadow: inset 0 0 0 2px rgba(184,134,59,.65);
+  }
+  .scratch-reveal {
+    z-index:1 !important; inset:0 !important; background: radial-gradient(circle at 50% 42%,#fffdf8 0%,#f8edd8 58%,#e8cfa1 100%) !important;
+    clip-path:path("M150 288 C132 274 25 211 25 106 C25 49 94 28 150 82 C206 28 275 49 275 106 C275 211 168 274 150 288 Z");
+  }
+  #scratchCanvas {
+    z-index:2 !important; inset:0 !important; width:300px !important; height:270px !important;
+    clip-path:path("M150 288 C132 274 25 211 25 106 C25 49 94 28 150 82 C206 28 275 49 275 106 C275 211 168 274 150 288 Z");
+  }
+  .scratch-reveal .d { font-size: 39px !important; color:var(--maroon) !important; }
+  .scratch-reveal .m { font-size: 10px !important; letter-spacing:.18em !important; }
+  .scratch-hint { margin-top: 18px !important; font-size: 12px !important; letter-spacing:.05em !important; }
+
+  /* ===== SINGLE GANESHA / CLEAN DOOR TRANSITION ===== */
+  #doors .ganesha-emblem { position:relative; z-index:12; transition: opacity .35s ease, transform .9s cubic-bezier(.7,0,.2,1); }
+  #doors.opened .ganesha-emblem { opacity:0; transform: scale(.86); }
+  .hero > .ganesha-emblem { display:none !important; }
+
+  /* ===== FULL-PAGE CELEBRATION CONFETTI ===== */
+  #sparkle-canvas { z-index: 9999 !important; }
+  @keyframes glint{0%{opacity:0;transform:scale(.4)}30%{opacity:1}100%{opacity:0;transform:scale(2)}}
+
+@keyframes glint{0%{opacity:0;transform:scale(.4)}30%{opacity:1}100%{opacity:0;transform:scale(2)}}
+
+  /* ===== SUPPLIED FRONT COVER: SINGLE GANESHA, NO DUPLICATE ===== */
+  .hero > .ganesha-emblem, .hero .ganesha-emblem, #doors .ganesha-emblem { display:none !important; }
+  #doors.opened .front-open-caption { opacity:0; transition:opacity .35s ease; pointer-events:none; }
+
+  .scratch-title{font-family:'Great Vibes','Edwardian Script ITC','Edwardian Script',cursive !important; font-size:42px !important; font-weight:400 !important; letter-spacing:.01em !important; color:#9d2940 !important; text-transform:none !important;}
+  .scratch-section{background:#f7e9eb !important;}
+
+/* FINAL HEART SHAPE — matched to supplied reference */
+.scratch-box {
+  width: 320px !important;
+  height: 300px !important;
+  position: relative !important;
+  margin: 10px auto 0 !important;
+  overflow: visible !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  filter: drop-shadow(0 12px 22px rgba(74,13,24,.18));
+}
+.scratch-box::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  background: linear-gradient(145deg,#fff8e9,#f1dfbc 48%,#fff9eb) !important;
+  clip-path: path("M160 292 C145 279 27 207 27 106 C27 53 91 28 160 88 C229 28 293 53 293 106 C293 207 175 279 160 292 Z") !important;
+}
+.scratch-reveal {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: radial-gradient(circle at 50% 40%,#fffdf8 0%,#f8edd8 58%,#e8cfa1 100%) !important;
+  clip-path: path("M160 292 C145 279 27 207 27 106 C27 53 91 28 160 88 C229 28 293 53 293 106 C293 207 175 279 160 292 Z") !important;
+}
+#scratchCanvas {
+  position: absolute !important;
+  left: 0 !important; top: 0 !important;
+  width: 320px !important; height: 300px !important;
+  z-index: 2 !important;
+  clip-path: path("M160 292 C145 279 27 207 27 106 C27 53 91 28 160 88 C229 28 293 53 293 106 C293 207 175 279 160 292 Z") !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+.scratch-reveal .d {
+  font-size: 39px !important;
+  transform: translateY(5px) scale(.92);
+}
+@media (max-width: 480px) {
+  .scratch-box { width: 300px !important; height: 282px !important; }
+  #scratchCanvas { width: 300px !important; height: 282px !important; }
+  .scratch-box::after, .scratch-reveal, #scratchCanvas {
+    clip-path: path("M150 274 C136 262 25 195 25 99 C25 50 85 26 150 82 C215 26 275 50 275 99 C275 195 164 262 150 274 Z") !important;
+  }
+}
+
+
+/* ---------- CINEMATIC SCROLL REVEAL ---------- */
+.cinematic-reveal {
+  opacity: 0;
+  transform: translateY(45px);
+  transition:
+    opacity 1s ease,
+    transform 1s cubic-bezier(.2,.7,.2,1);
+  will-change: opacity, transform;
+}
+
+.cinematic-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Gentle stagger for content inside revealed sections */
+.cinematic-reveal .event-card,
+.cinematic-reveal .family,
+.cinematic-reveal .scratch-box,
+.cinematic-reveal .venue-name,
+.cinematic-reveal .venue-address,
+.cinematic-reveal .map-wrap,
+.cinematic-reveal .directions-btn,
+.cinematic-reveal .note,
+.cinematic-reveal .close-names {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity .75s ease,
+    transform .75s cubic-bezier(.2,.7,.2,1);
+}
+
+.cinematic-reveal.is-visible .event-card,
+.cinematic-reveal.is-visible .family,
+.cinematic-reveal.is-visible .scratch-box,
+.cinematic-reveal.is-visible .venue-name,
+.cinematic-reveal.is-visible .venue-address,
+.cinematic-reveal.is-visible .map-wrap,
+.cinematic-reveal.is-visible .directions-btn,
+.cinematic-reveal.is-visible .note,
+.cinematic-reveal.is-visible .close-names {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cinematic-reveal.is-visible .event-card:nth-child(1) { transition-delay: .08s; }
+.cinematic-reveal.is-visible .event-card:nth-child(2) { transition-delay: .18s; }
+.cinematic-reveal.is-visible .family:nth-child(1) { transition-delay: .08s; }
+.cinematic-reveal.is-visible .family:nth-child(2) { transition-delay: .18s; }
+.cinematic-reveal.is-visible .venue-name { transition-delay: .08s; }
+.cinematic-reveal.is-visible .venue-address { transition-delay: .14s; }
+.cinematic-reveal.is-visible .map-wrap { transition-delay: .20s; }
+.cinematic-reveal.is-visible .directions-btn { transition-delay: .28s; }
+.cinematic-reveal.is-visible .note { transition-delay: .12s; }
+.cinematic-reveal.is-visible .close-names { transition-delay: .22s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-reveal,
+  .cinematic-reveal .event-card,
+  .cinematic-reveal .family,
+  .cinematic-reveal .scratch-box,
+  .cinematic-reveal .venue-name,
+  .cinematic-reveal .venue-address,
+  .cinematic-reveal .map-wrap,
+  .cinematic-reveal .directions-btn,
+  .cinematic-reveal .note,
+  .cinematic-reveal .close-names {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* ===== NEW SUPPLIED FRONT COVER ===== */
+#doors {
+  background: #f8f5ed;
+}
+#doors .door {
+  background-repeat: no-repeat;
+  background-size: 200% 100%;
+  background-color: #f8f5ed;
+}
+#doors .door.left {
+  background-position: left center;
+}
+#doors .door.right {
+  background-position: right center;
+}
+
+
+
+
+/* =========================================================
+   RESPONSIVE LAYOUT PATCH
+   Keeps the original royal design while adapting to
+   phones, tablets and laptops without clipping/overflow.
+   ========================================================= */
+
+/* Fluid page/frame */
+html { width:100%; min-width:0; }
+body { width:100%; min-width:0; overflow-x:hidden; }
+
+.frame {
+  width: min(640px, calc(100% - 28px));
+  max-width: 640px;
+  margin: clamp(14px, 2.5vw, 24px) auto;
+}
+
+/* Keep every section inside the frame */
+.frame section,
+.frame .divider {
+  width:100%;
+  max-width:100%;
+}
+
+section {
+  padding: clamp(32px, 5vw, 46px) clamp(20px, 6vw, 40px);
+}
+
+/* Hero typography scales smoothly */
+.hero {
+  padding-top: clamp(38px, 7vw, 54px);
+  padding-bottom: clamp(24px, 5vw, 30px);
+}
+
+.blessing-sub {
+  font-size: clamp(11px, 2.2vw, 17px);
+  line-height: 1.45;
+  margin-bottom: clamp(16px, 4vw, 30px);
+}
+
+.invite-lead {
+  font-size: clamp(13px, 2.5vw, 15px);
+}
+
+.names {
+  font-size: clamp(40px, 10vw, 68px) !important;
+  line-height: 1.05 !important;
+  overflow-wrap: break-word;
+}
+
+.names .and {
+  margin: clamp(4px, 1vw, 8px) 0;
+}
+
+.invite-tail {
+  font-size: clamp(13px, 2.6vw, 16px);
+  line-height: 1.55;
+}
+
+/* Families: two columns when there is room, stack when there isn't */
+.family-pair {
+  width:100%;
+  align-items:stretch;
+}
+
+.family {
+  min-width:0;
+}
+
+.family .who {
+  font-size: clamp(20px, 4vw, 24px);
+  overflow-wrap:anywhere;
+}
+
+.family .parents {
+  font-size: clamp(13px, 2.5vw, 14.5px);
+}
+
+/* Event cards */
+.event-card {
+  padding: clamp(20px, 4vw, 26px) clamp(16px, 4vw, 24px);
+}
+
+.event-date {
+  font-size: clamp(14px, 2.8vw, 16px);
+}
+
+.event-time {
+  font-size: clamp(13px, 2.5vw, 14px);
+}
+
+/* Countdown fits narrow screens */
+.countdown {
+  gap: clamp(7px, 2.5vw, 14px);
+}
+
+.countdown .unit {
+  min-width: clamp(48px, 14vw, 62px);
+}
+
+.flip-clock {
+  width: clamp(48px, 14vw, 62px);
+  height: clamp(44px, 12vw, 52px);
+}
+
+.flip-clock .num {
+  font-size: clamp(25px, 6vw, 32px);
+}
+
+/* Responsive scratch card.
+   The canvas remains internally 560x330, while its visual size
+   scales down; getBoundingClientRect() in the existing JS keeps
+   touch/mouse coordinates accurate. */
+.scratch-section {
+  padding-top: clamp(38px, 7vw, 52px) !important;
+  padding-bottom: clamp(38px, 7vw, 52px) !important;
+}
+
+.scratch-title {
+  font-size: clamp(34px, 8vw, 42px) !important;
+}
+
+.scratch-box {
+  width: min(320px, calc(100vw - 56px)) !important;
+  height: min(300px, calc((100vw - 56px) * 0.9375)) !important;
+}
+
+/* Scale the heart artwork as a single visual unit on smaller
+   screens instead of allowing its fixed path to overflow. */
+@media (max-width: 340px) {
+  .scratch-box {
+    width: 270px !important;
+    height: 253px !important;
+    transform: scale(.94);
+    transform-origin: top center;
+    margin-bottom: -14px !important;
+  }
+
+  #scratchCanvas {
+    width: 270px !important;
+    height: 253px !important;
+  }
+
+  .scratch-reveal .d {
+    font-size: 32px !important;
+  }
+
+  .scratch-reveal .m {
+    font-size: 9px !important;
+  }
+}
+
+/* Venue/map never exceeds its parent */
+.map-wrap {
+  width:100%;
+  height: clamp(180px, 38vw, 220px);
+}
+
+.venue-name {
+  font-size: clamp(21px, 4.5vw, 24px);
+  line-height:1.25;
+}
+
+.venue-address {
+  font-size: clamp(13px, 2.8vw, 15px);
+  line-height:1.45;
+}
+
+/* Fixed controls stay inside the visible screen */
+#music-toggle {
+  right: max(12px, env(safe-area-inset-right));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  width: clamp(42px, 11vw, 46px);
+  height: clamp(42px, 11vw, 46px);
+}
+
+/* Front-door content */
+.front-open-caption {
+  width: min(88vw, 430px);
+  bottom: clamp(7%, 10vh, 11%);
+}
+
+.front-open-line {
+  font-size: clamp(17px, 4vw, 28px);
+  line-height:1.2;
+}
+
+#open-btn {
+  font-size: clamp(15px, 3.5vw, 20px);
+  padding: clamp(10px, 2.8vw, 14px) clamp(22px, 6vw, 38px);
+}
+
+/* Tablet/mobile */
+@media (max-width: 600px) {
+  .frame {
+    width: calc(100% - 22px);
+    margin: 11px auto;
+    outline-offset: 4px;
+  }
+
+  .corner {
+    width: clamp(54px, 15vw, 78px);
+    height: clamp(54px, 15vw, 78px);
+  }
+
+  .family-pair {
+    gap: clamp(12px, 4vw, 20px);
+  }
+
+  .family .role {
+    font-size:11px;
+  }
+
+  .family .who {
+    font-size: clamp(19px, 5vw, 23px);
+    line-height:1.2;
+  }
+
+  .family .parents {
+    line-height:1.45;
+  }
+
+  .section-title {
+    font-size: clamp(25px, 7vw, 28px);
+    margin-top:18px;
+    margin-bottom:26px;
+  }
+
+  .footer {
+    padding: 34px 20px 42px;
+  }
+}
+
+/* Small phones: stack families so names/parents are never squeezed */
+@media (max-width: 430px) {
+  section {
+    padding-left:18px;
+    padding-right:18px;
+  }
+
+  .family-pair {
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+  }
+
+  .family {
+    width:100%;
+    max-width:280px;
+  }
+
+  .family-divider {
+    width:70px;
+    height:1px;
+  }
+
+  .countdown {
+    gap:6px;
+  }
+
+  .countdown .unit {
+    min-width:48px;
+  }
+
+  .countdown .lbl {
+    font-size:10px;
+  }
+
+  .event-card {
+    margin-bottom:15px;
+  }
+
+  .map-wrap {
+    height:200px;
+  }
+
+  .footer .note {
+    font-size:13px;
+    line-height:1.6;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .frame {
+    width: calc(100% - 14px);
+  }
+
+  section {
+    padding-left:14px;
+    padding-right:14px;
+  }
+
+  .names {
+    font-size: clamp(35px, 12vw, 48px) !important;
+  }
+
+  .blessing-sub {
+    font-size:10px;
+    letter-spacing:.08em;
+  }
+
+  .countdown {
+    gap:4px;
+  }
+
+  .countdown .unit {
+    min-width:44px;
+  }
+
+  .flip-clock {
+    width:44px;
+    height:42px;
+  }
+
+  .flip-clock .num {
+    font-size:23px;
+  }
+}
+
+/* Landscape phones: use the available width without making
+   the invitation unnecessarily tall */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hero {
+    padding-top:28px;
+    padding-bottom:20px;
+  }
+
+  .frame {
+    margin-top:8px;
+    margin-bottom:8px;
+  }
+
+  .front-open-caption {
+    bottom:5%;
+  }
+
+  #open-btn-wrap {
+    overflow-y:auto;
+  }
+}
+
+/* Desktop/laptop: retain the original premium proportions */
+@media (min-width: 900px) {
+  .frame {
+    width: min(640px, calc(100% - 40px));
+  }
+
+  section {
+    padding-left:40px;
+    padding-right:40px;
+  }
+}
+
+
+
+/* =========================================================
+   FINAL RESPONSIVE + MOBILE SAFETY PATCH
+   Keeps the invitation fluid on laptop, tablet and phone.
+   ========================================================= */
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+canvas,
+iframe,
+video,
+svg {
+  max-width: 100%;
+}
+
+img,
+iframe,
+video {
+  height: auto;
+}
+
+/* The door is only an opening layer. Once unlocked it must never
+   remain over the invitation content on mobile browsers. */
+body.locked {
+  overflow: hidden;
+  height: 100vh;
+  height: 100dvh;
+}
+
+
+#doors {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 500;
+}
+
+.frame {
+  position: relative;
+  z-index: 1;
+  width: min(640px, calc(100% - 28px));
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Keep invitation text readable and visible if these generated-style
+   class names are present in a hosted/mobile version. */
+.___1qwroh2,
+.fl43uef,
+.f19n0e5 {
+  color: #111 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: inline-block;
+  font-size: clamp(14px, 2vw, 18px);
+  line-height: 1.5;
+}
+
+/* Canvas layers must not create horizontal overflow. The sparkle layer
+   is decorative; the scratch canvas remains touch-enabled. */
+#scratchCanvas,
+#sparkle-canvas,
+canvas {
+  max-width: 100%;
+}
+
+#sparkle-canvas {
+  pointer-events: none !important;
+}
+
+#scratchCanvas {
+  touch-action: none;
+}
+
+.map-wrap,
+.map-wrap iframe {
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .frame {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .frame {
+    width: calc(100% - 16px);
+    margin: 10px auto;
+    padding: 12px;
+  }
+
+  section {
+    padding-left: clamp(14px, 5vw, 30px);
+    padding-right: clamp(14px, 5vw, 30px);
+  }
+
+  .___1qwroh2,
+  .fl43uef,
+  .f19n0e5 {
+    font-size: 14px;
+  }
+
+  #doors {
+    width: 100vw;
+    max-width: 100vw;
+  }
+
+  .door {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .___1qwroh2,
+  .fl43uef,
+  .f19n0e5 {
+    font-size: 13px;
+    color: #111 !important;
+    background: transparent;
+  }
+
+  .frame {
+    width: calc(100% - 12px);
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding: 8px;
+  }
+
+  section {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .hero {
+    padding-top: 38px;
+  }
+}
+
+/* Very small screens: keep the opening controls fully inside the viewport. */
+@media (max-width: 360px) {
+  #open-btn-wrap {
+    padding: 0 12px;
+  }
+
+  .front-open-caption {
+    width: min(94vw, 340px);
+  }
+
+  #open-btn {
+    max-width: 90vw;
+  }
+}
+
+</style>
+</head>
+<body class="locked">
+
+<!-- DOORS -->
+<div id="doors">
+  <div class="curtain"></div>
+  <div class="door left">
+    <div class="door-ornament"></div>
+  </div>
+  <div class="door right">
+    <div class="door-ornament"></div>
+  </div>
+  <div id="open-btn-wrap">
+    <div class="front-open-caption">
+      <span class="front-open-line">Karthick &amp; Bharathirithika</span>
+      <button id="open-btn" type="button">Open Invitation</button>
+    </div>
+  </div>
+</div>
+<canvas id="sparkle-canvas"></canvas>
+
+<button id="music-toggle" title="Toggle music" aria-label="Toggle background music">♪</button>
+
+<div class="frame">
+
+  <div class="corner tl"><svg viewBox="0 0 80 80" fill="none"><path d="M4 4 Q 4 40 40 40 Q 4 40 4 76" stroke="#B8863B" stroke-width="1.4"/><path d="M4 4 Q 40 4 40 40 Q 40 4 76 4" stroke="#B8863B" stroke-width="1.4"/><circle cx="4" cy="4" r="4" fill="#B8863B"/><path d="M14 14 C 24 10, 30 20, 22 28 C 30 24, 34 32, 26 38" stroke="#6E1423" stroke-width="1.2" fill="none"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 80 80" fill="none"><path d="M4 4 Q 4 40 40 40 Q 4 40 4 76" stroke="#B8863B" stroke-width="1.4"/><path d="M4 4 Q 40 4 40 40 Q 40 4 76 4" stroke="#B8863B" stroke-width="1.4"/><circle cx="4" cy="4" r="4" fill="#B8863B"/><path d="M14 14 C 24 10, 30 20, 22 28 C 30 24, 34 32, 26 38" stroke="#6E1423" stroke-width="1.2" fill="none"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 80 80" fill="none"><path d="M4 4 Q 4 40 40 40 Q 4 40 4 76" stroke="#B8863B" stroke-width="1.4"/><path d="M4 4 Q 40 4 40 40 Q 40 4 76 4" stroke="#B8863B" stroke-width="1.4"/><circle cx="4" cy="4" r="4" fill="#B8863B"/><path d="M14 14 C 24 10, 30 20, 22 28 C 30 24, 34 32, 26 38" stroke="#6E1423" stroke-width="1.2" fill="none"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 80 80" fill="none"><path d="M4 4 Q 4 40 40 40 Q 4 40 4 76" stroke="#B8863B" stroke-width="1.4"/><path d="M4 4 Q 40 4 40 40 Q 40 4 76 4" stroke="#B8863B" stroke-width="1.4"/><circle cx="4" cy="4" r="4" fill="#B8863B"/><path d="M14 14 C 24 10, 30 20, 22 28 C 30 24, 34 32, 26 38" stroke="#6E1423" stroke-width="1.2" fill="none"/></svg></div>
+
+  <section class="hero">
+    <span class="petal" style="left:8%; animation-duration:7s; animation-delay:0s;">✦</span>
+    <span class="petal" style="left:22%; animation-duration:9s; animation-delay:1.4s;">❋</span>
+    <span class="petal" style="left:48%; animation-duration:8s; animation-delay:2.6s;">✦</span>
+    <span class="petal" style="left:68%; animation-duration:10s; animation-delay:0.8s;">❋</span>
+    <span class="petal" style="left:85%; animation-duration:7.5s; animation-delay:3.2s;">✦</span>
+    
+    <p class="blessing-sub">WITH THE BLESSINGS OF THE ALMIGHTY AND OUR ELDERS</p>
+    <p class="invite-lead">Together with their families</p>
+    <h1 class="names">
+      P. Karthick
+      <span class="and">&amp;</span>
+      A C. Bharathirithika
+    </h1>
+    <p class="invite-tail">request the honour of your presence<br>as they begin their journey together</p>
+  </section>
+
+  <div class="divider">
+    <span class="line"></span>
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 21c-4-3.2-8-6.6-8-11A5 5 0 0 1 12 6a5 5 0 0 1 8 4c0 4.4-4 7.8-8 11z" stroke="#B8863B" stroke-width="1.3"/></svg>
+    <span class="line"></span>
+  </div>
+
+  <section class="families cinematic-reveal">
+    <p class="family-heading">Children of</p>
+    <div class="family-pair">
+      <div class="family">
+        <p class="role">The Groom</p>
+        <p class="who">P. Karthick</p>
+        <p class="parents">Son of<br>Mr &amp; Mrs. Ponmalai Kumar</p>
+      </div>
+      <div class="family-divider"></div>
+      <div class="family">
+        <p class="role">The Bride</p>
+        <p class="who">A C. Bharathirithika</p>
+        <p class="parents">Daughter of<br>Mr &amp; Mrs. Chenthil Kumar</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="events cinematic-reveal">
+    <h2 class="section-title">The Celebrations</h2>
+    <div class="event-card">
+      <p class="event-name">Reception</p>
+      <p class="event-date">Saturday, 14 November 2026</p>
+      <p class="event-time">6:00 PM onwards</p>
+    </div>
+    <div class="event-card">
+      <p class="event-name">Muhurtham</p>
+      <p class="event-date">Sunday, 15 November 2026</p>
+      <p class="event-time">6:00 AM onwards</p>
+    </div>
+    <p class="countdown-label">Counting down to the Muhurtham</p>
+    <div class="countdown" id="countdown">
+      <div class="unit"><div class="flip-clock" id="fc-days"><span class="num" id="cd-days">--</span></div><span class="lbl">Days</span></div>
+      <div class="unit"><div class="flip-clock" id="fc-hours"><span class="num" id="cd-hours">--</span></div><span class="lbl">Hours</span></div>
+      <div class="unit"><div class="flip-clock" id="fc-mins"><span class="num" id="cd-mins">--</span></div><span class="lbl">Mins</span></div>
+      <div class="unit"><div class="flip-clock" id="fc-secs"><span class="num" id="cd-secs">--</span></div><span class="lbl">Secs</span></div>
+    </div>
+  </section>
+
+  <section class="scratch-section cinematic-reveal">
+    <h2 class="section-title scratch-title" style="margin-top:0;">Scratch to Reveal</h2>
+    <div class="scratch-box" id="scratchBox">
+      <div class="scratch-reveal">
+        <span class="d">15 · 11 · 2026</span>
+        <span class="m">OUR MUHURTHAM DAY</span>
+      </div>
+      <canvas id="scratchCanvas" width="560" height="330" aria-label="Scratch to reveal the wedding date"></canvas>
+      <div class="scratch-burst" id="scratchBurst"></div>
+    </div>
+    <p class="scratch-hint">Scratch the heart to reveal our wedding date</p>
+  </section>
+
+  <section class="venue cinematic-reveal">
+    <h2 class="section-title" style="margin-top:0;">The Venue</h2>
+    <p class="venue-name">Sri Lakshmi Balaji Thirumana Mandapam</p>
+    <p class="venue-address">Chettipalayam Pirivu, Coimbatore</p>
+    <div class="map-wrap">
+      <iframe
+        src="https://www.google.com/maps?cid=16547494490913494471&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+    <a class="directions-btn" href="https://maps.app.goo.gl/cF661nEpVcjtGeDs6?g_st=ac" target="_blank" rel="noopener">Get Directions</a>
+  </section>
+
+  <section class="footer cinematic-reveal">
+    <div class="divider">
+      <span class="line"></span>
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 21c-4-3.2-8-6.6-8-11A5 5 0 0 1 12 6a5 5 0 0 1 8 4c0 4.4-4 7.8-8 11z" stroke="#B8863B" stroke-width="1.3"/></svg>
+      <span class="line"></span>
+    </div>
+    <p class="note" style="margin-top:24px;">Your presence would mean the world to us as we begin this new chapter, blessed by our families and our elders.</p>
+    <p class="close-names">Karthick &amp; Bharathirithika</p>
+  </section>
+
+</div>
+
+<audio id="wedding-audio" preload="auto" loop playsinline><source src="assets/wedding-music.mp3" type="audio/mpeg" type="audio/mpeg"></audio>
+<script>
+  /* ---------- DOOR OPEN ---------- */
+  (function(){
+    var openButton = document.getElementById('open-btn');
+    var doors = document.getElementById('doors');
+    var hasOpened = false;
+
+    function finishDoorOpening(){
+      document.body.classList.remove('locked');
+      if (doors) {
+        doors.classList.add('hidden');
+        doors.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    if (openButton) {
+      openButton.addEventListener('click', function(){
+        if (hasOpened) return;
+        hasOpened = true;
+
+        startWeddingMusic();
+
+        if (doors) {
+          doors.classList.add('opened');
+          doors.setAttribute('aria-hidden', 'false');
+        }
+
+        // Unlock immediately so the document can scroll, then make the
+        // overlay non-interactive/hidden after the door animation completes.
+        document.body.classList.remove('locked');
+        burstSparkles();
+        setTimeout(finishDoorOpening, 1550);
+      });
+    }
+  })();
+
+  // Defensive mobile fallback: an unlocked page must never retain the door layer.
+  if (!document.body.classList.contains('locked')) {
+    var initialDoors = document.getElementById('doors');
+    if (initialDoors) initialDoors.classList.add('hidden');
+  }
+
+  /* ---------- SPARKLE BURST ---------- */
+  var sparkleCanvas = document.getElementById('sparkle-canvas');
+  var sctx = sparkleCanvas.getContext('2d');
+  function resizeSparkleCanvas(){
+    sparkleCanvas.width = window.innerWidth;
+    sparkleCanvas.height = window.innerHeight;
+  }
+  resizeSparkleCanvas();
+  window.addEventListener('resize', resizeSparkleCanvas);
+
+  function burstSparkles(){
+    var cx = sparkleCanvas.width / 2;
+    var cy = sparkleCanvas.height / 2;
+    var particles = [];
+    var count = 70;
+    for (var i = 0; i < count; i++){
+      var angle = Math.random() * Math.PI * 2;
+      var speed = 2 + Math.random() * 5;
+      particles.push({
+        x: cx, y: cy,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 1.5,
+        life: 1,
+        size: 1.5 + Math.random() * 2.5,
+        color: Math.random() > 0.5 ? '212,169,79' : '251,243,228'
+      });
+    }
+    var start = Date.now();
+    function animateParticles(){
+      var elapsed = Date.now() - start;
+      sctx.clearRect(0, 0, sparkleCanvas.width, sparkleCanvas.height);
+      var alive = false;
+      particles.forEach(function(p){
+        if (p.life <= 0) return;
+        alive = true;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.05;
+        p.life -= 0.012;
+        sctx.beginPath();
+        sctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        sctx.fillStyle = 'rgba(' + p.color + ',' + Math.max(p.life, 0) + ')';
+        sctx.fill();
+      });
+      if (alive && elapsed < 3000){
+        requestAnimationFrame(animateParticles);
+      } else {
+        sctx.clearRect(0, 0, sparkleCanvas.width, sparkleCanvas.height);
+      }
+    }
+    animateParticles();
+  }
+
+  /* ---------- COUNTDOWN (flip-clock style) ---------- */
+  var target = new Date("2026-11-15T06:00:00+05:30").getTime();
+  function pad(n){ return String(n).padStart(2, "0"); }
+  var prevValues = { days: null, hours: null, mins: null, secs: null };
+
+  function setUnit(key, value){
+    var numEl = document.getElementById('cd-' + key);
+    var flipEl = document.getElementById('fc-' + key);
+    if (prevValues[key] !== value){
+      if (prevValues[key] !== null){
+        flipEl.classList.remove('flip');
+        void flipEl.offsetWidth;
+        flipEl.classList.add('flip');
+        setTimeout(function(){ numEl.textContent = value; }, 260);
+      } else {
+        numEl.textContent = value;
+      }
+      prevValues[key] = value;
+    }
+  }
+
+  function tick(){
+    var now = new Date().getTime();
+    var diff = target - now;
+    if (diff <= 0){
+      setUnit('days', 0);
+      setUnit('hours', '00');
+      setUnit('mins', '00');
+      setUnit('secs', '00');
+      clearInterval(timer);
+      return;
+    }
+    var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    var mins = Math.floor((diff / (1000 * 60)) % 60);
+    var secs = Math.floor((diff / 1000) % 60);
+    setUnit('days', days);
+    setUnit('hours', pad(hours));
+    setUnit('mins', pad(mins));
+    setUnit('secs', pad(secs));
+  }
+  tick();
+  var timer = setInterval(tick, 1000);
+
+  /* ---------- ROYAL PRESTIGE-INSPIRED SCRATCH REVEAL ---------- */
+  var canvas = document.getElementById('scratchCanvas');
+  var ctx = canvas.getContext('2d', { willReadFrequently:true });
+  var scratchBox = document.getElementById('scratchBox');
+  var scratchHint = document.querySelector('.scratch-hint');
+  var scratchBurst = document.getElementById('scratchBurst');
+  var scratching = false;
+  var revealed = false;
+  var lastX = 0, lastY = 0;
+  var scratchRatio = 0;
+
+  function paintScratchLayer(){
+    var w=canvas.width,h=canvas.height;
+    var g=ctx.createLinearGradient(0,0,w,h);
+    g.addColorStop(0,'#9b722d'); g.addColorStop(.22,'#d9b45b'); g.addColorStop(.5,'#b8863b'); g.addColorStop(.78,'#d6ad50'); g.addColorStop(1,'#8b6529');
+    ctx.globalCompositeOperation='source-over';
+    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    // Fine metallic texture for a premium scratch surface.
+    for(var i=0;i<8500;i++){
+      var x=Math.random()*w,y=Math.random()*h;
+      ctx.fillStyle=Math.random()>.5?'rgba(255,255,255,.12)':'rgba(70,35,5,.10)';
+      ctx.fillRect(x,y,Math.random()*2+.5,Math.random()*2+.5);
+    }
+    ctx.fillStyle='rgba(255,248,220,.9)';
+    ctx.font='26px Georgia, serif';
+    ctx.textAlign='center';
+    ctx.fillText('Scratch here  ✦',w/2,h/2+8);
+    ctx.font='13px Georgia, serif';
+    ctx.fillStyle='rgba(255,248,220,.68)';
+    ctx.fillText('REVEAL THE DATE',w/2,h/2+34);
+  }
+  paintScratchLayer();
+
+  function getPos(e){
+    var rect=canvas.getBoundingClientRect();
+    var point=e.touches ? e.touches[0] : e;
+    return {x:(point.clientX-rect.left)*(canvas.width/rect.width), y:(point.clientY-rect.top)*(canvas.height/rect.height)};
+  }
+  function scratchLine(x1,y1,x2,y2){
+    ctx.globalCompositeOperation='destination-out';
+    ctx.lineCap='round'; ctx.lineJoin='round'; ctx.lineWidth=34;
+    ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(x2,y2,17,0,Math.PI*2); ctx.fill();
+  }
+  function scratchAt(x,y){
+    if(!scratching) return;
+    scratchLine(lastX,lastY,x,y); lastX=x; lastY=y;
+    // Occasional tiny glints while scratching.
+    if(Math.random()<.12) spawnMiniGlint(x,y);
+  }
+  function spawnMiniGlint(x,y){
+    var r=document.createElement('span'); r.style.cssText='position:absolute;width:4px;height:4px;border-radius:50%;background:#fff6cf;left:'+((x/canvas.width)*100)+'%;top:'+((y/canvas.height)*100)+'%;box-shadow:0 0 8px #fff6cf;opacity:0;animation:glint .45s ease-out forwards;';
+    scratchBox.appendChild(r); setTimeout(function(){r.remove();},500);
+  }
+  function currentClearedRatio(){
+    var data=ctx.getImageData(0,0,canvas.width,canvas.height).data, cleared=0, total=0;
+    for(var i=3;i<data.length;i+=16){ total++; if(data[i]<35) cleared++; }
+    return cleared/total;
+  }
+  function revealScratch(){
+    if(revealed) return;
+    revealed=true; scratchRatio=1;
+    scratchBox.classList.add('revealed');
+    scratchHint.classList.add('done');
+    scratchHint.textContent='Date revealed ✦';
+    canvas.classList.add('fade-out');
+    launchScratchBurst();
+    setTimeout(function(){canvas.style.display='none';},700);
+  }
+  function checkScratch(){
+    scratchRatio=currentClearedRatio();
+    // The demo-style interaction reveals after a substantial amount is scratched,
+    // while a final automatic reveal keeps it satisfying on touch screens.
+    if(scratchRatio>.46) revealScratch();
+  }
+  function launchScratchBurst(){
+    // Royal Prestige-style celebration: burst from the heart and travel across the entire viewport.
+    var rect = scratchBox.getBoundingClientRect();
+    var ox = rect.left + rect.width/2, oy = rect.top + rect.height*.38;
+    var colors = ['#B8863B','#D4A94F','#8B1830','#C33B57','#E9B949','#6B8F71','#F6D58A','#FFF4D6'];
+    var particles=[];
+    for(var i=0;i<180;i++){
+      var a=Math.random()*Math.PI*2;
+      var speed=2.5+Math.random()*9;
+      particles.push({x:ox,y:oy,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed-2.5,life:1,
+        size:3+Math.random()*5,color:colors[i%colors.length],rot:Math.random()*360,vr:-8+Math.random()*16,
+        type:Math.random()<.68?'rect':'circle'});
+    }
+    var start=Date.now();
+    function animateCelebration(){
+      var elapsed=Date.now()-start;
+      sctx.clearRect(0,0,sparkleCanvas.width,sparkleCanvas.height);
+      var alive=false;
+      particles.forEach(function(p){
+        if(p.life<=0)return; alive=true;
+        p.x+=p.vx; p.y+=p.vy; p.vy+=.085; p.vx*=.996; p.rot+=p.vr; p.life-=.009;
+        sctx.save(); sctx.translate(p.x,p.y); sctx.rotate(p.rot*Math.PI/180);
+        sctx.globalAlpha=Math.max(0,p.life); sctx.fillStyle=p.color;
+        if(p.type==='circle'){sctx.beginPath();sctx.arc(0,0,p.size*.62,0,Math.PI*2);sctx.fill();}
+        else {sctx.fillRect(-p.size/2,-p.size/3,p.size,p.size*1.8);}
+        sctx.restore();
+      });
+      if(alive && elapsed<5200) requestAnimationFrame(animateCelebration);
+      else sctx.clearRect(0,0,sparkleCanvas.width,sparkleCanvas.height);
+    }
+    requestAnimationFrame(animateCelebration);
+  }
+  canvas.addEventListener('pointerdown',function(e){
+    scratching=true; canvas.classList.add('scratching');
+    var p=getPos(e); lastX=p.x; lastY=p.y; scratchAt(p.x,p.y); e.preventDefault();
+  });
+  canvas.addEventListener('pointermove',function(e){ if(scratching){ var p=getPos(e); scratchAt(p.x,p.y); checkScratch(); } e.preventDefault(); });
+  window.addEventListener('pointerup',function(){ scratching=false; canvas.classList.remove('scratching'); });
+  canvas.addEventListener('touchstart',function(e){e.preventDefault();},{passive:false});
+  canvas.addEventListener('touchmove',function(e){e.preventDefault();},{passive:false});
+  paintScratchLayer();
+
+  /* ---------- ATTACHED WEDDING MUSIC ---------- */
+  var weddingAudio=document.getElementById('wedding-audio');
+  var musicToggle=document.getElementById('music-toggle');
+  weddingAudio.volume=0.72;
+  function startWeddingMusic(){
+    var p=weddingAudio.play(); if(p&&p.catch)p.catch(function(){});
+    musicToggle.classList.add('playing');
+    musicToggle.setAttribute('aria-label','Pause wedding music');
+  }
+  musicToggle.addEventListener('click',function(){
+    if(weddingAudio.paused){startWeddingMusic();}
+    else{weddingAudio.pause();musicToggle.classList.remove('playing');musicToggle.setAttribute('aria-label','Play wedding music');}
+  });
+  weddingAudio.addEventListener('play',function(){musicToggle.classList.add('playing');});
+  weddingAudio.addEventListener('pause',function(){musicToggle.classList.remove('playing');});
+
+
+  /* ---------- CINEMATIC REVEAL OBSERVER ---------- */
+  (function(){
+    var revealItems = document.querySelectorAll('.cinematic-reveal');
+
+    if (!('IntersectionObserver' in window)) {
+      revealItems.forEach(function(el){ el.classList.add('is-visible'); });
+      return;
+    }
+
+    var revealObserver = new IntersectionObserver(function(entries, observer){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.14,
+      rootMargin: '0px 0px -8% 0px'
+    });
+
+    revealItems.forEach(function(el){
+      revealObserver.observe(el);
+    });
+  })();
+
+</script>
+
+</body>
+</html>
